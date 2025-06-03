@@ -6,7 +6,7 @@ import json
 
 CLIENT_ID = "WA2Kz91xVUfApIGYmyh8vAF3YUlCQoqBWy9Huk9z2RLmpB9b"
 CLIENT_SECRET = "Jx4HqWtqC9HA23nWnCti59M7nkb0av9x8hroTMnpGurBQl8VyPIARAEA820PQAXX"
-BUCKET_KEY = "check-3bucket"
+BUCKET_KEY = "shubham-new-bucket"
 POLICY_KEY = "transient"
 FOLDER_PATH = "upload"
 ASSEMBLY_FILE = "scissors.iam"
@@ -108,7 +108,7 @@ def upload_all_files(access_token):
 
             if upload_file_to_s3(signed_url, full_path):
                 finalize_upload(access_token, file_name, upload_key)
-    print("✅ All files uploaded and finalized.")
+    print("All files uploaded and finalized.")
 
 def base64_encode_urn(urn):
     return base64.b64encode(urn.encode('utf-8')).decode('utf-8').replace('=', '').replace('+', '-').replace('/', '_')
@@ -140,7 +140,7 @@ def link_references(access_token):
     response = requests.post(url, headers=headers, json=payload)
     save_response_to_file("05_link_references", response.json())
     if response.ok:
-        print("✅ References linked.")
+        print("References linked successfully.")
     return response.ok
 
 def start_translation_job(access_token):
@@ -170,7 +170,7 @@ def start_translation_job(access_token):
     response = requests.post(url, headers=headers, json=payload)
     save_response_to_file("06_start_translation_job", response.json())
     if response.ok:
-        print("✅ Translation job started.")
+        print("Translation job started successfully.")
         return encoded_urn
     return None
 
@@ -183,15 +183,15 @@ def check_translation_status(access_token, encoded_urn):
         save_response_to_file("07_translation_status", response.json())
 
         if not response.ok:
-            print("❌ Error checking translation status.")
+            print("Error checking translation status.")
             break
 
         status = response.json().get("status", "unknown")
         if status == "success":
-            print("✅ Translation completed.")
+            print("Translation completed successfully.")
             break
         elif status in ["failed", "timeout"]:
-            print("❌ Translation failed or timed out.")
+            print("Translation failed or timed out.")
             break
         else:
             time.sleep(10)
@@ -203,16 +203,16 @@ def retrieve_list_of_viewable_files(access_token, encoded_urn):
     if response.ok:
         data = response.json()
         save_response_to_file("08_metadata", data)
-        print("✅ Metadata retrieved successfully.")
+        print("Metadata retrieved successfully.")
 
         metadata_list = data.get("data", {}).get("metadata", [])
         if metadata_list:
             return metadata_list[0].get("guid")
         else:
-            print("⚠️ No metadata entries found.")
+            print("No metadata entries found.")
             return None
     else:
-        print("❌ Error retrieving viewable files.")
+        print("Error retrieving viewable files.")
         return None
     
 def get_object_hierarchy(access_token, encoded_urn, guid_viewable):
@@ -228,18 +228,18 @@ def get_object_hierarchy(access_token, encoded_urn, guid_viewable):
         save_response_to_file("09_object_hierarchy", data)
 
         if not response.ok:
-            print("❌ Error retrieving object hierarchy.")
+            print("Error retrieving object hierarchy.")
             return
 
         if data.get("result") == "success" and "data" not in data:
-            print(f"⏳ Properties still extracting... retrying in {delay} seconds ({attempt + 1}/{max_retries})")
+            print(f"Properties still extracting... retrying in {delay} seconds ({attempt + 1}/{max_retries})")
             time.sleep(delay)
             continue
 
-        print("✅ Object hierarchy retrieved successfully.")
+        print("Object hierarchy retrieved successfully.")
         return
 
-    print("❌ Timed out waiting for object hierarchy to be available.")
+    print("Timed out waiting for object hierarchy to be available.")
     
 def retrieve_properties_all_objects(access_token, encoded_urn, guid_viewable):
     url = f"https://developer.api.autodesk.com/modelderivative/v2/designdata/{encoded_urn}/metadata/{guid_viewable}/properties"
@@ -251,44 +251,52 @@ def retrieve_properties_all_objects(access_token, encoded_urn, guid_viewable):
     for attempt in range(max_retries):
         response = requests.get(url, headers=headers)
         if not response.ok:
-            print("❌ Error retrieving properties.")
+            print("Error retrieving properties.")
             return None
 
         data = response.json()
         save_response_to_file("10_properties_all_objects", data)
 
         if data.get("result") == "success" and "data" not in data:
-            print(f"⏳ Properties still extracting... retrying in {delay} seconds ({attempt + 1}/{max_retries})")
+            print(f"Properties still extracting... retrying in {delay} seconds ({attempt + 1}/{max_retries})")
             time.sleep(delay)
             continue
 
-        print("✅ Properties retrieved successfully.")
+        print("Properties retrieved successfully.")
         return data
 
-    print("❌ Timed out waiting for properties to be available.")
+    print("Timed out waiting for properties to be available.")
     return None
 
 if __name__ == "__main__":
+    # Take command line arguments for assembly file 
+    import sys 
+    if len(sys.argv) > 1:
+        ASSEMBLY_FILE = sys.argv[1]
+        print(f"Using assembly file: {ASSEMBLY_FILE}")
+    else:
+        print("No assembly file provided, using default: scissors.iam")
+
     token = get_access_token()
     if not token:
-        print("❌ Failed to get access token.")
+        print("Failed to get access token.")
         exit(1)
-    print("✅ Access token retrieved.")
+    print("Access token retrieved.")
 
     if not create_bucket(token):
-        print("❌ Failed to create bucket.")
+        print("Failed to create bucket.")
         exit(1)
-    print("✅ Bucket ready.")
+    print("Bucket ready.")
 
     upload_all_files(token)
 
     if not link_references(token):
-        print("❌ Failed to link references.")
+        print("Failed to link references.")
         exit(1)
 
     encoded_urn = start_translation_job(token)
     if not encoded_urn:
-        print("❌ Failed to start translation job.")
+        print("Failed to start translation job.")
         exit(1)
 
     check_translation_status(token, encoded_urn)

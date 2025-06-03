@@ -1,8 +1,8 @@
 {
-    "bucketKey": "check-3bucket",
-    "objectId": "urn:adsk.objects:os.object:check-3bucket/scissor_spring.ipt",
+    "bucketKey": "shubham-new-bucket",
+    "objectId": "urn:adsk.objects:os.object:shubham-new-bucket/scissor_spring.ipt",
     "objectKey": "scissor_spring.ipt",
     "size": 154624,
     "contentType": "application/octet-stream",
-    "location": "https://developer.api.autodesk.com/oss/v2/buckets/check-3bucket/objects/scissor_spring.ipt"
+    "location": "https://developer.api.autodesk.com/oss/v2/buckets/shubham-new-bucket/objects/scissor_spring.ipt"
 }
