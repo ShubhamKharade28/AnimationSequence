@@ -1,15 +1,40 @@
-# AnimationSequence
+# 🎞️ AnimationSequence
 
-1. Execute inventor/InventorExporterAlgo.exe 
-    - This stores the assembly_data.json (components, constraints, joints, etc) in inputs/
-    - Uses upload/
+**AnimationSequence** is a processing pipeline that extracts, analyzes, and generates animation data from Autodesk Inventor assembly files. It integrates Inventor export, 3D model analysis, and sequence generation using structured JSON inputs.
 
-2. Execute model_derivative_api/main.py
-    - This stores object_hierarchy.json and properties.json in inputs/
-    - and other all jsons in responses/
-    - uses upload/
+---
 
-3. Develop the algorithm or method that uses inputs/json and produces animation sequence
+## 🧩 Pipeline Overview
 
-4. Store animation sequence (for now) 
-    - Later it will be sent to client via nodejs server
+1. **Inventor Export**
+   - Executes: `inventor/InventorExporterAlgo.exe`
+   - Reads: Files from `upload/`
+   - Outputs:
+     - `inputs/assembly_data.json` — contains:
+       - Components
+       - Constraints
+       - Joints
+     - Intermediate data used in further steps
+
+2. **Model Derivative API**
+    - Executes: `model_derivative_api/main.py`
+    - Reads: Files from `upload/`
+    - Outputs:
+        - `inputs/object_hierarchy.json`
+        - `inputs/properties.json`
+        - Additional data in `responses/` (e.g., geometry, metadata)
+
+3. **Animation Sequence Generation**
+    - Executes: `main.js` using `node main`
+    - Uses all data from `inputs/` (`assembly_data.json`, `object_hierarchy.json`, `properties.json`)
+    - Processes component relationships, motion constraints, and structural hierarchy
+    - Generates time-based animation sequences using `generate_animation.js`
+
+4. **Output**
+    - Saves the animation sequence to disk
+    - Later, this data will be served to the client via a Node.js server
+
+---
+
+## 📁 Directory Structure
+
