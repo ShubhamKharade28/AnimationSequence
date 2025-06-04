@@ -3,18 +3,22 @@ AnimationSequence
     |___inputs/
         |___properties_all_objects.json
         |___object_hierarchies.json
-        |___relationships_data.json (constraints, joints, etc.)
+        |___relationships_data.json (constraints, joints, etc.) [currently named as assembly_data.json]
     
     |___outputs/
         |___animation_sequence.json
-    |
-    |___main.js (our algorithm that will use inputs/*.json and save animation_sequence in outputs/)
     
-    [if inputs/ does not contain data, then below tools folder is to be used]
-    |___tools/
-        |____inventor/InventorExporterAlgo.exe (C# binary file - can work without c# project setup)
-        |____model_derivative_api/main.py (pranay's setup for uploading and extracing metadata)
-        |____tools.js ( execute above two tools to store json files in inputs/ )
+    
+    |___inventor/   ...[to get assembly_data.json]
+        |___InventorExporterAlgo.exe 
+        |___(dll dependencies for InventorExporterAlgo.exe)
+
+    |___model_derivative_api/main.py    ...[to get object_hierarchy.json & properties.json]
 
     |___uploads/
-    |___responses
+    |___responses/
+
+    
+    |___execution.js     ...[execute InventorExporterAlgo.exe and model_derivative_api/main.py to get inputs/ ]
+    |___generate_animation.js   ...[Algorithm to generate animation sequence]
+    |___main.js         ...[executes execution.js and generate_animation.js from one point]
