@@ -1,8 +1,9 @@
-const { runInventorExporter, runModelDerivativeApi, moveModelDerivativeResults } = require('./execution.js');
-const { generateAnimationSequence } = require('./generate_animation.js');
+
+import { runInventorExporter, runModelDerivativeApi, moveModelDerivativeResults } from './execution.js';
+import { generateAnimationSequence } from './animation/generate_animation.js';
 
 async function runAnimationPipeline() {
-    const { logError } = require('./log_error');
+    const { logError } = await import('./log_error.js');
     try {
         await runInventorExporter();
         await runModelDerivativeApi();

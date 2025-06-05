@@ -1,0 +1,4 @@
+[2025-06-05T11:44:26.837Z] Pipeline execution failed: Command failed: python "C:\Users\Shubham Kharade\Desktop\AnimationSequence\model_derivative_api\main.py" "scissors.iam"
+
+[2025-06-05T11:52:37.399Z] Pipeline execution failed: Command failed: python "C:\Users\Shubham Kharade\Desktop\AnimationSequence\model_derivative_api\main.py" "scissors.iam"
+

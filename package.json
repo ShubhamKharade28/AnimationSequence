@@ -1,0 +1,29 @@
+{
+  "name": "animationsequence",
+  "version": "1.0.0",
+  "description": "AnimationSequence is a processing pipeline that extracts, analyzes, and generates animation data from Autodesk Inventor assembly files. It integrates Inventor export, 3D model analysis, and sequence generation using structured JSON inputs.",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "get-animation": "node main.js",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShubhamKharade28/AnimationSequence.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShubhamKharade28/AnimationSequence/issues"
+  },
+  "homepage": "https://github.com/ShubhamKharade28/AnimationSequence#readme",
+  "dependencies": {
+    "@langchain/core": "^0.3.57",
+    "@langchain/google-genai": "^0.2.10",
+    "@langchain/groq": "^0.2.2",
+    "dotenv": "^16.5.0",
+    "langchain": "^0.3.27"
+  }
+}

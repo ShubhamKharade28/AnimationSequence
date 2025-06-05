@@ -1,5 +1,11 @@
-const fs = require('fs');
-const path = require('path');
+
+
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Logs an error message to a file in the logs directory.
@@ -32,4 +38,4 @@ function logError(message, filename) {
     fs.appendFileSync(logFile, logEntry, 'utf8');
 }
 
-module.exports = { logError };
+export { logError };

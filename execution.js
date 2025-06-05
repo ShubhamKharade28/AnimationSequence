@@ -1,8 +1,11 @@
+import { exec, execFile } from 'child_process';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { logError } from './log_error.js';
 
-const { exec, execFile } = require('child_process');
-const path = require('path');
-const fs = require('fs');
-const { logError } = require('./log_error');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const inventorExporterPath = path.join(__dirname, 'inventor', 'InventorExporterAlgo.exe');
 const modelDerivativeApiPath = path.join(__dirname, 'model_derivative_api', 'main.py');
@@ -86,7 +89,7 @@ async function moveModelDerivativeResults() {
     }
 }
 
-module.exports = {
+export {
     runInventorExporter,
     runModelDerivativeApi,
     moveModelDerivativeResults
