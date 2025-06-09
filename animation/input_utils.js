@@ -17,7 +17,7 @@ function getInputs() {
     return {objectHierarchy, properties, assemblyData};
 }
 
-async function mergeInputs(objectHierarchy, properties, assemblyData) {
+async function integrateInputs(objectHierarchy, properties, assemblyData) {
     const prompt = ChatPromptTemplate.fromTemplate(
     `
 You are an expert JSON integrator. Merge the following three inputs: objectHierarchy, properties, and assemblyData.
@@ -61,5 +61,5 @@ assemblyData: {assemblyData}
 
 export { 
     getInputs, 
-    mergeInputs
+    integrateInputs
 };

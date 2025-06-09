@@ -3,6 +3,7 @@ configDotenv();
 
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 
+// generate docs for the properties
 const model = new ChatGoogleGenerativeAI({
     model: process.env.model_name,
     apiKey: process.env.api_key,
